@@ -1,0 +1,32 @@
+hive_bot_success_msg(data,message_uuid,bot_uuid,parent_task_start_ts,parent_task_end_ts,parent_metadata,parent_bot_type,parent_task_name) ::=<<
+{
+"bot_type": "com.gsk.rd.datacoe.bots.MonitorBot",
+"metadata": {
+$metadata_common(message_uuid, bot_uuid, parent_metadata.msg_uuid,"taskstatus_topic_performance_testing")$
+"tags":{$tags_common(parent_metadata,["taskstatus_bot"])$},
+"process_context": "taskstatus_bot_success_msg"
+},
+"tasks": [
+{
+"name": "taskstatus_bot_status",
+"processor": {
+"classname": "com.gsk.rd.datacoe.bots.processor.NullProcessor",
+"props": {}
+},
+"app_template": {
+"app_template_group": "/local/platform_testing/botworks/templates/jdbc_bot_v2.stg",
+"app_template_name": "jdbc_insert_into_performance_testing_hive_connection_time"
+},
+"data": {
+"bot_name":"$parent_bot_type$",
+"task_name":"$parent_task_name$",
+"process_context":"$parent_metadata.process_context$",
+"process_id":"$parent_metadata.tags.process_id$",
+"task_start_ts":$parent_task_start_ts$,
+"task_end_ts":$parent_task_end_ts$,
+"status":true
+}
+}
+]
+}
+>>
